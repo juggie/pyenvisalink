@@ -117,7 +117,7 @@ class HoneywellClient(EnvisalinkClient):
                 return (None, None)
 
             # Look for a sentinel
-            m = re.match("[%\^]", rawInput)
+            m = re.match(r"[%\^]", rawInput)
             if m is None:
                 # No sentinels so ignore the data
                 _LOGGER.error("Unrecognized data received from the envisalink. Ignoring: '%s'", rawInput)
