@@ -1,10 +1,8 @@
 import logging
 import json
 import re
-import asyncio
-import time
 from .envisalink_base_client import EnvisalinkClient
-from .honeywell_envisalinkdefs import *
+from .honeywell_envisalinkdefs import evl_TPI_Response_Codes,  evl_ArmDisarm_CIDs, evl_CID_Events, evl_CID_Qualifiers, evl_Commands, evl_PanicTypes, evl_Partition_Status_Codes, evl_ResponseTypes, evl_Virtual_Keypad_How_To_Beep
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -106,7 +104,7 @@ class HoneywellClient(EnvisalinkClient):
                 # Don't have the full login response yet
                 return (None, None)
             code = m.group(0)
-            rawInput = rawInput[m.end(0) :]
+            rawInput = rawInput[m.end(0):]
             cmd["code"] = code
             cmd["data"] = ""
         else:
@@ -149,9 +147,9 @@ class HoneywellClient(EnvisalinkClient):
             else:
                 code = inputList[0:cmd_sep_idx]
                 cmd["code"] = code
-                cmd["data"] = inputList[cmd_sep_idx + 1 :]
+                cmd["data"] = inputList[cmd_sep_idx + 1:]
 
-            rawInput = rawInput[end_idx + 1 :]
+            rawInput = rawInput[end_idx + 1:]
 
             _LOGGER.debug(str.format("Code:{0} Data:'{1}'", cmd["code"], cmd["data"]))
 
@@ -267,7 +265,7 @@ class HoneywellClient(EnvisalinkClient):
     def handle_partition_state_change(self, code, data):
         """Handle when the envisalink sends us a partition change."""
         for currentIndex in range(0, 8):
-            partitionStateCode = data[currentIndex * 2 : (currentIndex * 2) + 2]
+            partitionStateCode = data[currentIndex * 2: (currentIndex * 2) + 2]
             partitionState = evl_Partition_Status_Codes[str(partitionStateCode)]
             partitionNumber = currentIndex + 1
             previouslyArmed = self._alarmPanel.alarm_state["partition"][partitionNumber]["status"].get("armed", False)

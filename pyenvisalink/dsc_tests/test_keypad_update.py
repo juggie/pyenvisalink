@@ -1,7 +1,6 @@
 import logging
 import json
-import re
-from pyenvisalink.dsc_envisalinkdefs import *
+from pyenvisalink.dsc_envisalinkdefs import evl_ResponseTypes
 from pyenvisalink import AlarmState
 
 _LOGGER = logging.getLogger(__name__)

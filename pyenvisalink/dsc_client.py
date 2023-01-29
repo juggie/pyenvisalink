@@ -1,11 +1,9 @@
-import asyncio
 import logging
 import json
 import re
-import asyncio
 import datetime
 from .envisalink_base_client import EnvisalinkClient
-from .dsc_envisalinkdefs import *
+from .dsc_envisalinkdefs import evl_ResponseTypes, evl_ArmModes, evl_Commands, evl_PanicTypes, evl_TPI_Response_Codes, evl_verboseTrouble
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -84,16 +82,16 @@ class DSCClient(EnvisalinkClient):
             # We don't have a full command yet
             return (None, rawInput)
 
-        remainder = rawInput[end_idx + 2 :]
+        remainder = rawInput[end_idx + 2:]
         rawInput = rawInput[:end_idx]
 
         cmd = {}
         dataoffset = 0
         if re.match(r"\d\d:\d\d:\d\d\s", rawInput):
             dataoffset = dataoffset + 9
-        code = rawInput[dataoffset : dataoffset + 3]
+        code = rawInput[dataoffset: dataoffset + 3]
         cmd["code"] = code
-        cmd["data"] = rawInput[dataoffset + 3 :][:-2]
+        cmd["data"] = rawInput[dataoffset+3:][:-2]
 
         try:
             # Interpret the login command further to see what our handler is.
@@ -216,7 +214,7 @@ class DSCClient(EnvisalinkClient):
         """The DSC will, depending upon settings, challenge us with the code.  If the user passed it in, we'll send it."""
         self.create_internal_task(self.foo(), name="send_code")
 
-    async def send_code():
+    async def send_code(self):
         if self._cachedCode is None:
             _LOGGER.error("The envisalink asked for a code, but we have no code in our cache.")
         else:
