@@ -1,10 +1,12 @@
-import logging
-import json
-import re
 import datetime
-from .envisalink_base_client import EnvisalinkClient
-from .dsc_envisalinkdefs import evl_ResponseTypes, evl_ArmModes, evl_Commands, evl_PanicTypes, evl_TPI_Response_Codes, evl_verboseTrouble
+import json
+import logging
+import re
 
+from .dsc_envisalinkdefs import (evl_ArmModes, evl_Commands, evl_PanicTypes,
+                                 evl_ResponseTypes, evl_TPI_Response_Codes,
+                                 evl_verboseTrouble)
+from .envisalink_base_client import EnvisalinkClient
 
 _LOGGER = logging.getLogger(__name__)
 
